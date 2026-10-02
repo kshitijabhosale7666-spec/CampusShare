@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusShare | Help Responses</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7f5fc;
+            color: #222;
+        }
+
+        .navbar {
+            background: white;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo-box {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg,#5b4be7,#a044ff);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .nav-btn {
+            border: none;
+            background: transparent;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #f0ebff;
+            color: #6c2bd9;
+        }
+
+        .page {
+            padding: 45px 7%;
+        }
+
+        .hero {
+            background: linear-gradient(135deg,#5146e5,#a044ff);
+            color: white;
+            padding: 40px;
+            border-radius: 22px;
+            margin-bottom: 35px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            opacity: 0.92;
+        }
+
+        .responses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap: 24px;
+        }
+
+        .response-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            background: #eee9ff;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .response-card h2 {
+            margin-bottom: 15px;
+        }
+
+        .response-card p {
+            color: #666;
+            line-height: 1.7;
+            margin: 7px 0;
+        }
+
+        .message {
+            background: #f7f3ff;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            color: #444;
+        }
+
+        .helper {
+            display: inline-block;
+            background: #eee9ff;
+            color: #6c2bd9;
+            padding: 8px 13px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .empty {
+            background: white;
+            padding: 55px 30px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .back-btn {
+            margin-top: 25px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 10px;
+            background: #6c2bd9;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        @media(max-width:700px) {
+
+            .navbar {
+                padding: 15px 4%;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .page {
+                padding: 25px 5%;
+            }
+
+            .hero {
+                padding: 28px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-box">CS</div>
+        CampusShare
+    </div>
+
+    <div>
+
+        <button class="nav-btn"
+                onclick="window.location.href='/dashboard'">
+            Home
+        </button>
+
+        <button class="nav-btn"
+                onclick="window.location.href='/need-it-now'">
+            Need It Now
+        </button>
+
+        <button class="nav-btn"
+                onclick="window.location.href='/logout'">
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+
+<div class="page">
+
+    <div class="hero">
+
+        <h1>Help Responses 🤝</h1>
+
+        <p>
+            Students who offered help for your requested items.
+        </p>
+
+    </div>
+
+
+    <div class="responses">
+
+        {% for response in responses %}
+
+        <div class="response-card">
+
+            <div class="icon">
+                🤝
+            </div>
+
+            <h2>
+                {{ response[1] }}
+            </h2>
+
+            <p>
+                👤 Student:
+                <strong>{{ response[3] }}</strong>
+            </p>
+
+            <div class="message">
+
+                💬
+                <strong>Message:</strong>
+
+                <br>
+
+                {{ response[2] }}
+
+            </div>
+
+            <span class="helper">
+                🤝 Help Offered
+            </span>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📭
+            </div>
+
+            <h2>
+                No Help Responses Yet
+            </h2>
+
+            <p>
+                When another student offers help,
+                their response will appear here.
+            </p>
+
+            <button class="back-btn"
+                    onclick="window.location.href='/need-it-now'">
+                Back to Need It Now
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

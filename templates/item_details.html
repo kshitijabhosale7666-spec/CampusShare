@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ item[2] }} | CampusShare</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f6f3ff;
+            color: #222;
+        }
+
+        /* NAVBAR */
+        nav {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            box-shadow: 0 2px 12px rgba(0,0,0,.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #6334d8;
+        }
+
+        .logo-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg,#7b3ff2,#4c20b5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #6334d8;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+        .container {
+            max-width: 1050px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        /* ITEM CARD */
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 35px;
+            display: grid;
+            grid-template-columns: 40% 60%;
+            gap: 40px;
+            box-shadow: 0 12px 35px rgba(70,40,130,.12);
+        }
+
+        .image {
+            min-height: 350px;
+            border-radius: 22px;
+            background: linear-gradient(135deg,#eee5ff,#d8c7ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+        }
+
+        .category {
+            display: inline-block;
+            background: #eee7ff;
+            color: #6334d8;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #666;
+            line-height: 1.7;
+            margin: 18px 0;
+        }
+
+        /* ITEM INFORMATION */
+        .info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .info-box {
+            background: #f7f5ff;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .info-box small {
+            color: #777;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* BORROW REQUEST */
+        .request-box {
+            background: #faf9ff;
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 20px;
+        }
+
+        .request-box h3 {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 12px 0 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .request-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg,#7b3ff2,#5524c7);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .request-btn:hover {
+            opacity: .9;
+        }
+
+        .unavailable {
+            background: #eee;
+            color: #777;
+            cursor: not-allowed;
+        }
+
+        /* REVIEWS */
+        .reviews-section {
+            margin-top: 35px;
+            background: white;
+            padding: 30px;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(70,40,130,.10);
+        }
+
+        .reviews-section h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .review-card {
+            background: #f8f6ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #eee7ff;
+        }
+
+        .review-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .review-user {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .stars {
+            color: #f5a623;
+            font-size: 18px;
+        }
+
+        .review-card p {
+            color: #555;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .review-card small {
+            color: #888;
+        }
+
+        .no-reviews {
+            background: #f8f6ff;
+            padding: 25px;
+            border-radius: 14px;
+            color: #777;
+            text-align: center;
+        }
+
+        /* MOBILE */
+        @media(max-width:750px) {
+
+            .card {
+                grid-template-columns: 1fr;
+            }
+
+            .image {
+                min-height: 250px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .review-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">
+        <div class="logo-box">CS</div>
+        CampusShare
+    </div>
+
+    <a href="/dashboard" class="back">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<div class="container">
+
+    <!-- ITEM DETAILS -->
+
+    <div class="card">
+
+        <!-- ITEM IMAGE -->
+
+        <div class="image">
+            📦
+        </div>
+
+
+        <!-- ITEM INFORMATION -->
+
+        <div>
+
+            <span class="category">
+                {{ item[3] }}
+            </span>
+
+            <h1>
+                {{ item[2] }}
+            </h1>
+
+            <p class="description">
+                {{ item[5] }}
+            </p>
+
+
+            <!-- ITEM INFO -->
+
+            <div class="info">
+
+                <div class="info-box">
+                    <small>Department</small>
+                    <strong>{{ item[4] }}</strong>
+                </div>
+
+                <div class="info-box">
+                    <small>Condition</small>
+                    <strong>{{ item[6] }}</strong>
+                </div>
+
+                <div class="info-box">
+                    <small>Availability</small>
+                    <strong>{{ item[7] }}</strong>
+                </div>
+
+                <div class="info-box">
+                    <small>Item ID</small>
+                    <strong>{{ item[0] }}</strong>
+                </div>
+
+            </div>
+
+
+            <!-- BORROW REQUEST -->
+
+            <div class="request-box">
+
+                <h3>
+                    📩 Request to Borrow
+                </h3>
+
+                <form
+                    method="POST"
+                    action="/request-borrow/{{ item[0] }}"
+                >
+
+                    <label>
+                        Return Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="return_date"
+                        required
+                    >
+
+                    {% if item[7] == "Available" %}
+
+                        <button
+                            type="submit"
+                            class="request-btn"
+                        >
+                            Send Borrow Request
+                        </button>
+
+                    {% else %}
+
+                        <button
+                            type="button"
+                            class="request-btn unavailable"
+                            disabled
+                        >
+                            Item Currently Unavailable
+                        </button>
+
+                    {% endif %}
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- REVIEWS & RATINGS -->
+
+    <div class="reviews-section">
+
+        <h2>
+            ⭐ Reviews & Ratings
+        </h2>
+
+
+        {% for review in reviews %}
+
+            <div class="review-card">
+
+                <div class="review-top">
+
+                    <span class="review-user">
+                        👤 {{ review[3] }}
+                    </span>
+
+                    <span class="stars">
+
+                        {% for i in range(review[0]) %}
+                            ⭐
+                        {% endfor %}
+
+                    </span>
+
+                </div>
+
+
+                <p>
+                    {{ review[1] }}
+                </p>
+
+
+                <small>
+                    {{ review[2] }}
+                </small>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="no-reviews">
+
+                ⭐ No reviews yet.
+
+                <br>
+
+                Be the first student to review this item!
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

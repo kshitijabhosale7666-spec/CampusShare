@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusShare | Register</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:linear-gradient(135deg,#5b4be7,#a044ff);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:30px;
+        }
+
+        .card{
+            width:900px;
+            max-width:100%;
+            background:white;
+            border-radius:28px;
+            overflow:hidden;
+            display:grid;
+            grid-template-columns:40% 60%;
+            box-shadow:0 20px 60px rgba(0,0,0,.2);
+        }
+
+        .left{
+            background:linear-gradient(135deg,#5b4be7,#7b2ff7);
+            color:white;
+            padding:50px 35px;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+
+        .logo{
+            width:60px;
+            height:60px;
+            border-radius:16px;
+            background:white;
+            color:#6c2bd9;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:25px;
+            font-weight:bold;
+            margin-bottom:25px;
+        }
+
+        .left h1{
+            font-size:34px;
+            margin-bottom:15px;
+        }
+
+        .left p{
+            line-height:1.7;
+            opacity:.9;
+        }
+
+        .right{
+            padding:45px;
+        }
+
+        .right h2{
+            color:#222;
+            font-size:28px;
+            margin-bottom:8px;
+        }
+
+        .subtitle{
+            color:#777;
+            margin-bottom:28px;
+        }
+
+        label{
+            display:block;
+            margin:15px 0 7px;
+            font-weight:bold;
+            color:#444;
+        }
+
+        input{
+            width:100%;
+            padding:13px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            outline:none;
+            font-size:15px;
+        }
+
+        input:focus{
+            border-color:#7b2ff7;
+        }
+
+        .register-btn{
+            width:100%;
+            margin-top:25px;
+            padding:15px;
+            border:none;
+            border-radius:12px;
+            background:linear-gradient(135deg,#5b4be7,#a044ff);
+            color:white;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        .login-link{
+            text-align:center;
+            margin-top:20px;
+            color:#777;
+        }
+
+        .login-link a{
+            color:#6c2bd9;
+            font-weight:bold;
+            text-decoration:none;
+        }
+
+        @media(max-width:700px){
+            .card{
+                grid-template-columns:1fr;
+            }
+
+            .left{
+                padding:30px;
+            }
+
+            .right{
+                padding:30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="left">
+        <div class="logo">CS</div>
+
+        <h1>Join CampusShare</h1>
+
+        <p>
+            Create your student account and start sharing,
+            borrowing and reusing useful items with your campus community.
+        </p>
+    </div>
+
+    <div class="right">
+
+        <h2>Create Account</h2>
+        <p class="subtitle">Register to start using CampusShare.</p>
+
+        <form method="POST" action="/register">
+
+            <label>Full Name</label>
+            <input type="text" name="full_name" placeholder="Enter your full name" required>
+
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Choose a username" required>
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Create a password" required>
+
+            <button type="submit" class="register-btn">
+                Create Account →
+            </button>
+
+        </form>
+
+        <p class="login-link">
+            Already have an account?
+            <a href="/login">Login</a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

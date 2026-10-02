@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusShare | Preferences</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#f7f3ff,#eee8ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:25px;
+}
+
+.container{
+    width:1050px;
+    min-height:650px;
+    background:white;
+    border-radius:30px;
+    overflow:hidden;
+    display:flex;
+    box-shadow:0 25px 70px rgba(76,29,149,.15);
+}
+
+/* LEFT */
+.left{
+    width:40%;
+    padding:45px;
+    color:white;
+    background:linear-gradient(145deg,#5b21b6,#7c3aed,#a855f7);
+    position:relative;
+    overflow:hidden;
+}
+
+.circle{
+    position:absolute;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    right:-120px;
+    top:-80px;
+}
+
+.logo{
+    width:68px;
+    height:68px;
+    background:white;
+    color:#7c3aed;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    font-weight:900;
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+
+.brand{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:700;
+}
+
+.left-content{
+    margin-top:65px;
+    position:relative;
+    z-index:2;
+}
+
+.left h1{
+    font-size:36px;
+    line-height:1.2;
+    margin-bottom:18px;
+}
+
+.left p{
+    font-size:15px;
+    line-height:1.8;
+    color:#f3e8ff;
+}
+
+.tip{
+    margin-top:45px;
+    background:rgba(255,255,255,.13);
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:18px;
+    padding:20px;
+}
+
+.tip b{
+    display:block;
+    margin-bottom:7px;
+}
+
+.tip span{
+    font-size:13px;
+    color:#f3e8ff;
+}
+
+/* RIGHT */
+.right{
+    width:60%;
+    padding:45px 55px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+.step{
+    color:#7c3aed;
+    font-size:13px;
+    font-weight:700;
+}
+
+.progress{
+    display:flex;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.number{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#7c3aed;
+    color:white;
+    font-weight:bold;
+}
+
+.line{
+    width:70px;
+    height:3px;
+    background:#8b5cf6;
+    margin:0 8px;
+}
+
+.right h2{
+    font-size:29px;
+    color:#241238;
+}
+
+.subtitle{
+    color:#888;
+    font-size:14px;
+    margin:7px 0 28px;
+}
+
+.field{
+    margin-bottom:22px;
+}
+
+label{
+    display:block;
+    color:#3f3f46;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:9px;
+}
+
+select{
+    width:100%;
+    height:50px;
+    border:1px solid #e4e4e7;
+    border-radius:12px;
+    padding:0 14px;
+    background:#fafafa;
+    outline:none;
+    font-size:14px;
+}
+
+select:focus{
+    border-color:#8b5cf6;
+    box-shadow:0 0 0 4px #ede9fe;
+}
+
+.options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.option{
+    border:1px solid #e4e4e7;
+    border-radius:13px;
+    padding:14px;
+    cursor:pointer;
+    transition:.3s;
+    background:#fafafa;
+}
+
+.option:hover{
+    border-color:#8b5cf6;
+    transform:translateY(-2px);
+}
+
+.option input{
+    accent-color:#7c3aed;
+    margin-right:8px;
+}
+
+.option span{
+    font-size:14px;
+    color:#444;
+}
+
+button{
+    width:100%;
+    height:52px;
+    border:none;
+    border-radius:13px;
+    background:linear-gradient(135deg,#6d28d9,#9333ea);
+    color:white;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:8px;
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 25px rgba(124,58,237,.3);
+}
+
+.note{
+    text-align:center;
+    color:#999;
+    font-size:11px;
+    margin-top:16px;
+}
+
+@media(max-width:800px){
+    .container{
+        flex-direction:column;
+    }
+
+    .left,.right{
+        width:100%;
+    }
+
+    .right{
+        padding:35px;
+    }
+}
+
+@media(max-width:500px){
+    .options{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+
+        <div class="circle"></div>
+
+        <div class="logo">CS</div>
+
+        <div class="brand">CampusShare</div>
+
+        <div class="left-content">
+
+            <h1>
+                Make CampusShare
+                work for you ✨
+            </h1>
+
+            <p>
+                Choose your preferences and tell us
+                what you usually need or want to share
+                with other students.
+            </p>
+
+            <div class="tip">
+                <b>💡 Smart Sharing</b>
+                <span>
+                    Your preferences help us show
+                    relevant items and opportunities
+                    around your campus.
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="right">
+
+        <div class="top">
+            <b>CampusShare</b>
+            <span class="step">Step 2 of 3</span>
+        </div>
+
+        <div class="progress">
+            <div class="number">✓</div>
+
+            <div class="line"></div>
+
+            <div class="number">2</div>
+        </div>
+
+        <h2>Set Your Preferences</h2>
+
+        <p class="subtitle">
+            Tell us what you are interested in.
+        </p>
+
+
+        <form onsubmit="event.preventDefault();
+        window.location.href='/dashboard';">
+
+            <div class="field">
+
+                <label>What do you want to do?</label>
+
+                <div class="options">
+
+                    <label class="option">
+                        <input type="checkbox">
+                        <span>📚 Borrow Items</span>
+                    </label>
+
+                    <label class="option">
+                        <input type="checkbox">
+                        <span>🤝 Lend Items</span>
+                    </label>
+
+                    <label class="option">
+                        <input type="checkbox">
+                        <span>📖 Share Notes</span>
+                    </label>
+
+                    <label class="option">
+                        <input type="checkbox">
+                        <span>🎓 Share Books</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Items you are interested in</label>
+
+                <select required>
+
+                    <option value="">Select an item category</option>
+
+                    <option>Books & Notes</option>
+                    <option>Electronics & Chargers</option>
+                    <option>Lab Equipment</option>
+                    <option>Stationery</option>
+                    <option>Clothes & Accessories</option>
+                    <option>Other Items</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Preferred Sharing Type</label>
+
+                <select required>
+
+                    <option value="">Choose one</option>
+                    <option>Borrow for a few hours</option>
+                    <option>Borrow for a few days</option>
+                    <option>Long-term sharing</option>
+                    <option>Any</option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit">
+                Start Sharing 🚀
+            </button>
+
+            <div class="note">
+                🔒 You can change your preferences later.
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function savePreferences(event){
+
+    event.preventDefault();
+
+    alert("Preferences saved successfully! 🎉");
+
+}
+
+</script>
+
+</body>
+</html>

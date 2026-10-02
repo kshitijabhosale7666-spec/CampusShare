@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusShare | My Requests</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7f5fc;
+            color: #222;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: white;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo-box {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg,#5b4be7,#a044ff);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            border: none;
+            background: transparent;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #f0ebff;
+            color: #6c2bd9;
+        }
+
+        /* MAIN */
+
+        .page {
+            padding: 45px 7%;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: linear-gradient(135deg,#5146e5,#a044ff);
+            color: white;
+            padding: 38px;
+            border-radius: 22px;
+            margin-bottom: 35px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            opacity: 0.92;
+        }
+
+        /* REQUEST GRID */
+
+        .requests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap: 24px;
+        }
+
+        /* CARD */
+
+        .request-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .request-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        .item-icon {
+            width: 75px;
+            height: 75px;
+            background: #eee9ff;
+            border-radius: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin-bottom: 18px;
+        }
+
+        .request-card h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .details {
+            color: #666;
+            line-height: 1.9;
+            margin-bottom: 18px;
+        }
+
+        .details p {
+            margin: 2px 0;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .pending {
+            background: #fff4cc;
+            color: #9a7200;
+        }
+
+        .accepted {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .returned {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        /* RETURN BUTTON */
+
+        .return-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px 18px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg,#5b4be7,#a044ff);
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .return-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* EMPTY */
+
+        .empty {
+            background: white;
+            padding: 55px 30px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .empty h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #777;
+        }
+
+        .browse-btn {
+            margin-top: 20px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 10px;
+            background: #6c2bd9;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .browse-btn:hover {
+            background: #5520b5;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:700px) {
+
+            .navbar {
+                padding: 15px 4%;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .nav-links {
+                gap: 2px;
+            }
+
+            .nav-btn {
+                padding: 8px;
+                font-size: 13px;
+            }
+
+            .page {
+                padding: 25px 5%;
+            }
+
+            .hero {
+                padding: 28px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-box">CS</div>
+        CampusShare
+    </div>
+
+    <div class="nav-links">
+
+        <button class="nav-btn"
+                onclick="window.location.href='/dashboard'">
+            Home
+        </button>
+
+        <button class="nav-btn"
+                onclick="window.location.href='/my-items'">
+            My Items
+        </button>
+
+        <button class="nav-btn"
+                onclick="window.location.href='/add-item'">
+            + Add Item
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- MAIN -->
+
+<div class="page">
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <h1>My Borrow Requests 📋</h1>
+
+        <p>
+            Track the items you requested from your campus community.
+        </p>
+
+    </div>
+
+
+    <!-- REQUESTS -->
+
+    <div class="requests">
+
+        {% for req in requests %}
+
+        <div class="request-card">
+
+            <div class="item-icon">
+                📦
+            </div>
+
+            <h2>
+                {{ req[1] }}
+            </h2>
+
+            <div class="details">
+
+                <p>
+                    📚 Category:
+                    <strong>{{ req[2] }}</strong>
+                </p>
+
+                <p>
+                    🎓 Department:
+                    <strong>{{ req[3] }}</strong>
+                </p>
+
+                <p>
+                    📅 Return Date:
+                    <strong>{{ req[5] }}</strong>
+                </p>
+
+                <p>
+                    🆔 Request ID:
+                    <strong>{{ req[0] }}</strong>
+                </p>
+
+            </div>
+
+
+            {% if req[4] == "Pending" %}
+
+                <span class="status pending">
+                    ⏳ Pending
+                </span>
+
+
+            {% elif req[4] == "Accepted" %}
+
+                <span class="status accepted">
+                    ✅ Accepted
+                </span>
+
+                <a href="/return-item/{{ req[0] }}"
+                   class="return-btn">
+                    ↩️ Return Item
+                </a>
+                <a href="/rate/{{ req[0] }}"
+                   class="return-btn">
+                   ⭐ Rate & Review
+                </a>
+
+
+            {% elif req[4] == "Rejected" %}
+
+                <span class="status rejected">
+                    ❌ Rejected
+                </span>
+
+
+            {% elif req[4] == "Returned" %}
+
+                <span class="status returned">
+                    ↩️ Returned
+                </span>
+                <a href="/rate/{{req[0]}}"
+                   class="return-btn">
+                    Rate and Review
+            </a>
+
+
+            {% else %}
+
+                <span class="status pending">
+                    {{ req[4] }}
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        {% else %}
+
+        <!-- NO REQUESTS -->
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📭
+            </div>
+
+            <h2>
+                No Borrow Requests Yet
+            </h2>
+
+            <p>
+                Your requested items will appear here.
+            </p>
+
+            <button class="browse-btn"
+                    onclick="window.location.href='/dashboard'">
+                Browse Items
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Item | CampusShare</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f0ff, #ffffff);
+            color: #29233b;
+        }
+
+        /* Navbar */
+        nav {
+            height: 72px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 3px 15px rgba(80, 50, 130, 0.08);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #743dcc, #a56bea);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .brand h2 {
+            color: #5428a5;
+            font-size: 21px;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #6637be;
+            font-weight: bold;
+        }
+
+        /* Main */
+        .main {
+            width: 90%;
+            max-width: 1100px;
+            margin: 45px auto;
+            display: grid;
+            grid-template-columns: 0.9fr 1.4fr;
+            gap: 35px;
+            align-items: stretch;
+        }
+
+        /* Left */
+        .intro {
+            background: linear-gradient(145deg, #6737bd, #8f5bdd);
+            color: white;
+            border-radius: 28px;
+            padding: 42px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro::after {
+            content: "";
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.10);
+            position: absolute;
+            right: -80px;
+            bottom: -70px;
+        }
+
+        .intro .mini-logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .intro h1 {
+            font-size: 36px;
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .intro p {
+            color: #eee7ff;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .benefit {
+            margin-top: 35px;
+        }
+
+        .benefit div {
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: white;
+            border-radius: 28px;
+            padding: 38px;
+            box-shadow: 0 15px 45px rgba(74, 42, 120, 0.12);
+        }
+
+        .form-title {
+            margin-bottom: 28px;
+        }
+
+        .form-title h2 {
+            font-size: 27px;
+            color: #29233b;
+        }
+
+        .form-title p {
+            color: #888;
+            margin-top: 7px;
+            font-size: 14px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .field {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #403850;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #e1ddea;
+            border-radius: 12px;
+            padding: 13px 14px;
+            outline: none;
+            font-size: 14px;
+            color: #3b3449;
+            background: #fcfbff;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #7b4bd1;
+            box-shadow: 0 0 0 3px rgba(123,75,209,0.10);
+            background: white;
+        }
+
+        textarea {
+            height: 95px;
+            resize: none;
+        }
+
+        .add-btn {
+            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #6637be, #8c57d6);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(102,55,190,0.25);
+            transition: 0.2s;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(102,55,190,0.32);
+        }
+
+        .note {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 14px;
+        }
+
+        @media(max-width: 800px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .intro {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="brand">
+            <div class="logo">CS</div>
+            <h2>CampusShare</h2>
+        </div>
+
+        <a href="/dashboard" class="back">← Dashboard</a>
+    </nav>
+
+
+    <div class="main">
+
+        <!-- LEFT SECTION -->
+
+        <div class="intro">
+
+            <div class="mini-logo">CS</div>
+
+            <h1>Share what you have.</h1>
+
+            <p>
+                Your unused items can be useful to another student.
+                List them on CampusShare and become part of your
+                campus sharing community.
+            </p>
+
+            <div class="benefit">
+
+                <div>✓ Help another student</div>
+
+                <div>✓ Reduce unnecessary purchases</div>
+
+                <div>✓ Encourage reuse</div>
+
+                <div>✓ Build your sharing profile</div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <div class="form-card">
+
+            <div class="form-title">
+                <h2>List Your Item</h2>
+
+                <p>
+                    Add the details of the item you want to share.
+                </p>
+            </div>
+
+
+            <form method="POST" action="add-item">
+
+                <div class="field">
+
+                    <label>Item Name</label>
+
+                    <input
+                        type="text" name="item_name"
+                        placeholder="e.g. Scientific Calculator"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="field">
+
+                        <label>Category</label>
+
+                        <select name="category"required>
+
+                            <option value="">Select category</option>
+
+                            <option>Books & Notes</option>
+                            <option>Calculators</option>
+                            <option>Chargers & Electronics</option>
+                            <option>Lab Equipment</option>
+                            <option>Lab Coat & Uniform</option>
+                            <option>Stationery</option>
+                            <option>Bags & Accessories</option>
+                            <option>Other Items</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>Department</label>
+
+                        <select name="department"recquired>
+
+                            <option value="">Select department</option>
+
+                            <option>BCS</option>
+                            <option>BCA</option>
+                            <option>BBA</option>
+                            <option>B.Com</option>
+                            <option>Engineering</option>
+                            <option>Science</option>
+                            <option>Arts</option>
+                            <option>Law</option>
+                            <option>Medical</option>
+                            <option>Pharmacy</option>
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="field">
+
+                        <label>Item Condition</label>
+
+                        <select name="condition"required>
+
+                            <option value="">Select condition</option>
+
+                            <option>New</option>
+                            <option>Like New</option>
+                            <option>Good</option>
+                            <option>Used</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>Availability</label>
+
+                        <select name="availability">
+
+                            <option>Available</option>
+                            <option>Currently Borrowed</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Description</label>
+
+                    <textarea
+                       name="description" placeholder="Tell students something useful about your item..."
+                    ></textarea>
+
+                </div>
+
+
+                <button class="add-btn" type="submit">
+                    + Add Item to CampusShare
+                </button>
+
+                <div class="note">
+                    Your item will be visible to students on CampusShare.
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

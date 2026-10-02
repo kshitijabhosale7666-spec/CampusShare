@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusShare | Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f6f7fb;
+            color: #222;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 0 6%;
+            gap: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .trust-score {
+            margin-left: auto;
+            background: #f3efff;
+            color: #6c3cff;
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid #e3d9ff;
+}
+
+        .trust-score strong {
+            font-size: 15px;
+}
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: auto;
+        }
+
+        .logo-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg,#6c2bd9,#a855f7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .logo h2 {
+            color: #25213b;
+        }
+
+        .nav-btn {
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            cursor: pointer;
+            color: #444;
+        }
+
+        .nav-btn:hover {
+            color: #6c2bd9;
+        }
+
+        .add-btn {
+            background: #6c2bd9;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: #5420ad;
+        }
+
+        /* HERO */
+        .hero {
+            margin: 35px 6%;
+            padding: 55px;
+            border-radius: 25px;
+            background: linear-gradient(135deg,#5b21b6,#9333ea,#c026d3);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            opacity: .9;
+            max-width: 550px;
+        }
+
+        .hero-btn {
+            margin-top: 25px;
+            padding: 13px 22px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: #6c2bd9;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* COMMON */
+        .section {
+            margin: 40px 6%;
+        }
+
+        .section-title {
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        /* DEPARTMENTS */
+        .departments {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .dept {
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .dept:hover,
+        .dept.active {
+            background: #6c2bd9;
+            color: white;
+            border-color: #6c2bd9;
+        }
+
+        /* CATEGORIES */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+            gap: 15px;
+        }
+
+        .category {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0,0,0,.06);
+        }
+
+        .category:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,.1);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-box">CS</div>
+        <h2>CampusShare</h2>
+    </div>
+
+    <button class="nav-btn" onclick="goHome()">Home</button>
+
+    <button class="nav-btn" onclick="needItNow()">
+        Need It Now
+    </button>
+
+    <button class="nav-btn" onclick="myItems()">
+        My Items
+    </button>
+
+    <button class="add-btn" onclick="addItem()">
+        + Add Item
+    </button>
+    <button class="nav-btn" onclick="window.location.href='/my-requests'">
+    My Requests
+</button>
+    <button class="nav-btn"
+        onclick="window.location.href='/logout'">
+    Logout
+    </button>
+    
+    <div class="trust-score">
+    🛡️ Trust Score:
+    <strong>{{ trust_score }}/100</strong>
+</div>
+
+</nav>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div>
+        <h1>Share More. Spend Less.</h1>
+
+        <p>
+            Borrow useful items from your campus community
+            instead of buying them for temporary needs.
+        </p>
+
+        <button class="hero-btn" onclick="needItNow()">
+            🔍 Find an Item
+        </button>
+    </div>
+
+</section>
+
+
+<!-- DEPARTMENTS -->
+<section class="section">
+
+    <h2 class="section-title">
+        Explore Departments
+    </h2>
+
+    <div class="departments">
+
+        <button class="dept active"
+                onclick="filterDepartment('All')">
+            All Departments
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('BCS')">
+            BCS
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('BCA')">
+            BCA
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('BBA')">
+            BBA
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('B.Com')">
+            B.Com
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('Engineering')">
+            Engineering
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('Science')">
+            Science
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('Arts')">
+            Arts
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('Law')">
+            Law
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('Medical')">
+            Medical
+        </button>
+
+        <button class="dept"
+                onclick="filterDepartment('Pharmacy')">
+            Pharmacy
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- CATEGORIES -->
+<section class="section">
+
+    <h2 class="section-title">
+        Browse Categories
+    </h2>
+
+    <div class="categories">
+
+        <div class="category"
+             onclick="filterCategory('Books')">
+            📚<br><br>
+            Books & Textbooks
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('Notes')">
+            📝<br><br>
+            Notes & Study Material
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('Calculators')">
+            🧮<br><br>
+            Calculators
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('Electronics')">
+            🔌<br><br>
+            Chargers & Electronics
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('Lab')">
+            🧪<br><br>
+            Lab Equipment
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('Stationery')">
+            ✏️<br><br>
+            Stationery
+        </div>
+
+    </div>
+
+</section>
+<!-- ITEMS -->
+<section class="section" id="itemsSection">
+
+    <h2 class="section-title">
+        Available Items 📦
+    </h2>
+
+    <div class="items">
+
+        {% for item in items %}
+
+        <div class="item-card"
+             data-department="{{ item[4] }}"
+             data-category="{{ item[3] }}"
+             onclick="openItem('{{ item[0] }}')">
+
+            <div class="item-icon">
+                📦
+            </div>
+
+            <div class="item-info">
+
+                <h3>{{ item[2] }}</h3>
+
+                <p>
+                    🎓 {{ item[4] }}
+                </p>
+
+                <p>
+                    {{ item[5] }}
+                </p>
+
+                <span>
+                    {{ item[3] }}
+                </span>
+
+                <strong>
+                    {{ item[7] }}
+                </strong>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+            <h3>No items available yet</h3>
+            <p>Be the first student to share an item.</p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- NEED IT NOW -->
+<section class="section">
+
+    <div class="need-box">
+
+        <div>
+            <h2>⚡ Need It Now?</h2>
+
+            <p>
+                Looking for something urgently?
+                Find an item from your campus community.
+            </p>
+        </div>
+
+        <button onclick="needItNow()">
+            Find Items →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ADD ITEM -->
+<section class="section">
+
+    <div class="add-box">
+
+        <h2>Have something to share?</h2>
+
+        <p>
+            Help another student by listing your unused
+            books, calculator, charger or other useful items.
+        </p>
+
+        <button onclick="addItem()">
+            + List Your Item
+        </button>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="logo">
+        <div class="logo-box">CS</div>
+        <h2>CampusShare</h2>
+    </div>
+
+    <p>
+        Share • Borrow • Reuse • Save
+    </p>
+
+</footer>
+<style>
+
+.items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.item-card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: .3s;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.item-icon {
+    height: 130px;
+    background: #f1eaff;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.item-info h3 {
+    margin-bottom: 10px;
+}
+
+.item-info p {
+    color: #666;
+    margin: 7px 0;
+}
+
+.item-info span {
+    display: inline-block;
+    background: #eee5ff;
+    color: #6c2bd9;
+    padding: 6px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.item-info strong {
+    display: block;
+    color: #16a34a;
+    margin-top: 10px;
+}
+
+.need-box {
+    background: linear-gradient(135deg,#6c2bd9,#9333ea);
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.need-box h2 {
+    margin-bottom: 10px;
+}
+
+.need-box button,
+.add-box button {
+    border: none;
+    background: white;
+    color: #6c2bd9;
+    padding: 13px 22px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-box {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+}
+
+.add-box p {
+    margin: 12px auto 20px;
+    color: #666;
+    max-width: 600px;
+}
+
+.add-box button {
+    background: #6c2bd9;
+    color: white;
+}
+
+.empty {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+footer {
+    margin-top: 50px;
+    background: #201633;
+    color: white;
+    padding: 30px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer .logo h2 {
+    color: white;
+}
+
+@media(max-width:700px) {
+
+    .navbar {
+        padding: 0 3%;
+        gap: 10px;
+    }
+
+    .navbar .nav-btn {
+        display: none;
+    }
+
+    .hero {
+        margin: 20px 3%;
+        padding: 30px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .section {
+        margin: 30px 3%;
+    }
+
+    .need-box,
+    footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+</style>
+
+
+<script>
+
+function goHome() {
+    window.location.href = "/dashboard";
+}
+
+function myItems() {
+    window.location.href = "/my-items";
+}
+
+function addItem() {
+    window.location.href = "/add-item";
+}
+
+function needItNow() {
+    window.location.href = "/need-it-now";
+}
+
+function openItem(id) {
+    window.location.href = "/item/" + id;
+}
+
+function filterDepartment(department) {
+
+    const cards = document.querySelectorAll(".item-card");
+
+    cards.forEach(card => {
+
+        if (
+            department === "All" ||
+            card.dataset.department === department
+        ) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+
+    });
+
+    document.querySelectorAll(".dept").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    event.target.classList.add("active");
+}
+
+function filterCategory(category) {
+
+    const cards = document.querySelectorAll(".item-card");
+
+    cards.forEach(card => {
+
+        if (
+            card.dataset.category.includes(category) ||
+            category === "All"
+        ) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+
+    });
+
+    document.getElementById("itemsSection").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+</script>
+
+</body>
+</html>

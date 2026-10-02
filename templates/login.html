@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | CampusShare</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 620px;
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+        }
+
+        .left {
+            width: 50%;
+            background: linear-gradient(150deg, #6a11cb, #8e2de2);
+            color: white;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            color: #7114d6;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .left h1 {
+            font-size: 42px;
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .left p {
+            font-size: 17px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .items {
+            display: flex;
+            gap: 15px;
+            margin-top: 50px;
+        }
+
+        .item {
+            width: 90px;
+            height: 90px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tag {
+            position: absolute;
+            bottom: 45px;
+            left: 50px;
+            background: rgba(255,255,255,0.15);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .right {
+            width: 50%;
+            padding: 55px 65px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right h2 {
+            font-size: 34px;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 35px;
+        }
+
+        .input-box {
+            margin-bottom: 20px;
+        }
+
+        .input-box label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 15px 16px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: #7617d8;
+            box-shadow: 0 0 0 3px rgba(118,23,216,0.1);
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 60px;
+        }
+
+        .show {
+            position: absolute;
+            right: 15px;
+            top: 14px;
+            color: #7417d5;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0 25px;
+            font-size: 13px;
+        }
+
+        .remember {
+            display: flex;
+            gap: 7px;
+            align-items: center;
+            color: #666;
+        }
+
+        .remember input {
+            width: auto;
+        }
+
+        .forgot {
+            color: #7114d6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(90deg, #6a11cb, #8e2de2);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(106,17,203,0.25);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(106,17,203,0.35);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0;
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            background: #ddd;
+            flex: 1;
+        }
+
+        .register {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register a {
+            color: #7114d6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .security {
+            text-align: center;
+            margin-top: 25px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        @media(max-width: 800px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .left,
+            .right {
+                width: 100%;
+            }
+
+            .left {
+                padding: 35px;
+            }
+
+            .left h1 {
+                font-size: 32px;
+            }
+
+            .items {
+                margin-top: 30px;
+            }
+
+            .tag {
+                position: static;
+                display: inline-block;
+                margin-top: 25px;
+            }
+
+            .right {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT SECTION -->
+
+    <div class="left">
+
+        <div class="logo">CS</div>
+
+        <h1>
+            Welcome to<br>
+            CampusShare
+        </h1>
+
+        <p>
+            Share what you have.<br>
+            Get what you need.<br>
+            Connect with your campus community.
+        </p>
+
+        <div class="items">
+            <div class="item">📚</div>
+            <div class="item">🧮</div>
+            <div class="item">🔌</div>
+            <div class="item">🎒</div>
+        </div>
+
+        <div class="tag">
+            ✨ Your Campus. Your Community.
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SECTION -->
+
+    <div class="right">
+
+        <h2>Welcome Back 👋</h2>
+
+        <p class="subtitle">
+            Login to continue to CampusShare
+        </p>
+
+
+        <!-- LOGIN FORM -->
+
+        <form method="POST" action="/login">
+
+            <!-- USERNAME -->
+
+            <div class="input-box">
+
+                <label>Email or Username</label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-box">
+
+                <label>Password</label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <span
+                        class="show"
+                        onclick="showPassword()"
+                    >
+                        Show
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPTIONS -->
+
+            <div class="options">
+
+                <label class="remember">
+
+                    <input type="checkbox">
+
+                    Remember me
+
+                </label>
+
+                <a href="#" class="forgot">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Login →
+            </button>
+
+        </form>
+
+
+        <!-- DIVIDER -->
+
+        <div class="divider">
+            OR
+        </div>
+
+
+        <!-- REGISTER -->
+
+        <div class="register">
+
+            Don't have an account?
+
+            <a href="/register">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <div class="security">
+            🔒 Your information is safe & secure
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function showPassword() {
+
+    let password =
+        document.getElementById("password");
+
+    let button =
+        document.querySelector(".show");
+
+    if (password.type === "password") {
+
+        password.type = "text";
+        button.innerText = "Hide";
+
+    } else {
+
+        password.type = "password";
+        button.innerText = "Show";
+
+    }
+}
+
+</script>
+
+</body>
+</html>

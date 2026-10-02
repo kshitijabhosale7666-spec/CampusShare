@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusShare | Owner Requests</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7f5fc;
+            color: #222;
+        }
+
+        .navbar {
+            background: white;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 15px rgba(0,0,0,.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo-box {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg,#5b4be7,#a044ff);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .nav-btn {
+            border: none;
+            background: transparent;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .page {
+            padding: 45px 7%;
+        }
+
+        .hero {
+            background: linear-gradient(135deg,#5146e5,#a044ff);
+            color: white;
+            padding: 38px;
+            border-radius: 22px;
+            margin-bottom: 35px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            opacity: .9;
+        }
+
+        .requests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+            gap: 24px;
+        }
+
+        .request-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.08);
+        }
+
+        .icon {
+            width: 65px;
+            height: 65px;
+            background: #eee9ff;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 18px;
+        }
+
+        .request-card h2 {
+            margin-bottom: 15px;
+        }
+
+        .details {
+            color: #666;
+            line-height: 1.9;
+            margin-bottom: 18px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #fff4cc;
+            color: #9a7200;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .accept,
+        .reject {
+            flex: 1;
+            padding: 11px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .accept {
+            background: #16a34a;
+            color: white;
+        }
+
+        .reject {
+            background: #dc2626;
+            color: white;
+        }
+
+        .accept:hover {
+            background: #12833c;
+        }
+
+        .reject:hover {
+            background: #b91c1c;
+        }
+
+        .empty {
+            background: white;
+            padding: 50px;
+            text-align: center;
+            border-radius: 20px;
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .empty p {
+            color: #777;
+            margin-top: 8px;
+        }
+
+        @media(max-width:700px) {
+            .page {
+                padding: 25px 5%;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-box">CS</div>
+        CampusShare
+    </div>
+
+    <div>
+        <button class="nav-btn"
+                onclick="window.location.href='/dashboard'">
+            Home
+        </button>
+
+        <button class="nav-btn"
+                onclick="window.location.href='/my-items'">
+            My Items
+        </button>
+    </div>
+
+</nav>
+
+
+<div class="page">
+
+    <div class="hero">
+
+        <h1>Borrow Requests 📩</h1>
+
+        <p>
+            Manage requests received for your shared items.
+        </p>
+
+    </div>
+
+
+    <div class="requests">
+
+        {% for req in requests %}
+
+        <div class="request-card">
+
+            <div class="icon">
+                📦
+            </div>
+
+            <h2>
+                {{ req[1] }}
+            </h2>
+
+            <div class="details">
+
+                <p>👤 Borrower: <strong>{{ req[2] }}</strong></p>
+
+                <p>📚 Category: <strong>{{ req[3] }}</strong></p>
+
+                <p>🎓 Department: <strong>{{ req[4] }}</strong></p>
+
+                <p>📅 Return Date: <strong>{{ req[6] }}</strong></p>
+
+                <p>🆔 Request ID: <strong>{{ req[0] }}</strong></p>
+
+            </div>
+
+
+            {% if req[5] == "Pending" %}
+
+                <span class="status">
+                    ⏳ Pending
+                </span>
+
+                <div class="buttons">
+
+                    <form method="POST"
+                          action="/accept-request/{{ req[0] }}"
+                          style="flex:1;">
+
+                        <button class="accept" type="submit">
+                            ✅ Accept
+                        </button>
+
+                    </form>
+
+
+                    <form method="POST"
+                          action="/reject-request/{{ req[0] }}"
+                          style="flex:1;">
+
+                        <button class="reject" type="submit">
+                            ❌ Reject
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% elif req[5] == "Accepted" %}
+
+                <span class="status"
+                      style="background:#dcfce7;color:#15803d;">
+                    ✅ Accepted
+                </span>
+
+            {% elif req[5] == "Rejected" %}
+
+                <span class="status"
+                      style="background:#fee2e2;color:#dc2626;">
+                    ❌ Rejected
+                </span>
+
+            {% endif %}
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📭
+            </div>
+
+            <h2>No Borrow Requests</h2>
+
+            <p>
+                Requests for your items will appear here.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

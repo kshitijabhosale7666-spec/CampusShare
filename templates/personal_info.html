@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CampusShare | Your Profile</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f7f5ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+}
+
+/* MAIN CARD */
+
+.main{
+    width:1100px;
+    min-height:680px;
+    background:white;
+    border-radius:30px;
+    overflow:hidden;
+    display:flex;
+    box-shadow:0 25px 70px rgba(76,29,149,.15);
+}
+
+/* LEFT SIDE */
+
+.left{
+    width:43%;
+    padding:45px;
+    color:white;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(145deg,#5b21b6,#7c3aed,#a855f7);
+}
+
+.left:before,
+.left:after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+}
+
+.left:before{
+    width:300px;
+    height:300px;
+    right:-130px;
+    top:-80px;
+}
+
+.left:after{
+    width:250px;
+    height:250px;
+    left:-130px;
+    bottom:-100px;
+}
+
+/* LOGO */
+
+.logo{
+    position:relative;
+    z-index:2;
+    width:68px;
+    height:68px;
+    background:white;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 12px 30px rgba(0,0,0,.18);
+}
+
+.logo span{
+    font-size:27px;
+    font-weight:900;
+    background:linear-gradient(135deg,#6d28d9,#c026d3);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.brand{
+    position:absolute;
+    top:61px;
+    left:130px;
+    font-size:19px;
+    font-weight:700;
+}
+
+/* LEFT CONTENT */
+
+.left-content{
+    position:relative;
+    z-index:2;
+    margin-top:65px;
+}
+
+.left h1{
+    font-size:38px;
+    line-height:1.15;
+    margin-bottom:18px;
+}
+
+.left h1 span{
+    color:#e9d5ff;
+}
+
+.left p{
+    font-size:15px;
+    line-height:1.8;
+    color:#f3e8ff;
+}
+
+/* ILLUSTRATION */
+
+.illustration{
+    margin-top:45px;
+    height:170px;
+    position:relative;
+}
+
+.card{
+    position:absolute;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+}
+
+.card.one{
+    width:190px;
+    left:5px;
+    top:20px;
+    transform:rotate(-5deg);
+}
+
+.card.two{
+    width:180px;
+    right:10px;
+    top:55px;
+    transform:rotate(6deg);
+}
+
+.item-icon{
+    font-size:28px;
+}
+
+.card strong{
+    display:block;
+    margin-top:8px;
+    font-size:14px;
+}
+
+.card small{
+    opacity:.8;
+}
+
+/* RIGHT SIDE */
+
+.right{
+    width:57%;
+    padding:45px 55px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.step-text{
+    font-size:13px;
+    color:#8b5cf6;
+    font-weight:700;
+}
+
+/* PROGRESS */
+
+.progress{
+    display:flex;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.progress .circle{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:13px;
+    font-weight:bold;
+    background:#ede9fe;
+    color:#7c3aed;
+}
+
+.progress .active{
+    background:#7c3aed;
+    color:white;
+    box-shadow:0 5px 15px rgba(124,58,237,.3);
+}
+
+.line{
+    width:65px;
+    height:3px;
+    background:#ede9fe;
+}
+
+.progress label{
+    font-size:11px;
+    color:#777;
+    margin:0 15px 0 7px;
+}
+
+/* TITLE */
+
+.right h2{
+    font-size:30px;
+    color:#241238;
+}
+
+.subtitle{
+    color:#888;
+    font-size:14px;
+    margin-top:7px;
+    margin-bottom:28px;
+}
+
+/* FORM */
+
+.row{
+    display:flex;
+    gap:18px;
+}
+
+.field{
+    flex:1;
+    margin-bottom:20px;
+}
+
+label.form-label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    color:#3f3f46;
+    margin-bottom:8px;
+}
+
+input,
+select{
+    width:100%;
+    height:48px;
+    border:1px solid #e4e4e7;
+    border-radius:12px;
+    padding:0 14px;
+    outline:none;
+    background:#fafafa;
+    font-size:14px;
+    transition:.3s;
+}
+
+input:focus,
+select:focus{
+    background:white;
+    border-color:#8b5cf6;
+    box-shadow:0 0 0 4px #ede9fe;
+}
+
+input[readonly]{
+    background:#f1eff8;
+    color:#6d28d9;
+    font-weight:600;
+    cursor:not-allowed;
+}
+
+/* BUTTON */
+
+button{
+    width:100%;
+    height:52px;
+    margin-top:8px;
+    border:none;
+    border-radius:13px;
+    background:linear-gradient(135deg,#6d28d9,#9333ea);
+    color:white;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 25px rgba(124,58,237,.3);
+}
+
+/* PRIVACY */
+
+.privacy{
+    text-align:center;
+    margin-top:18px;
+    font-size:11px;
+    color:#999;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+
+    body{
+        padding:15px;
+    }
+
+    .main{
+        flex-direction:column;
+    }
+
+    .left,
+    .right{
+        width:100%;
+    }
+
+    .left{
+        padding:35px;
+    }
+
+    .left-content{
+        margin-top:40px;
+    }
+
+    .right{
+        padding:35px;
+    }
+}
+
+@media(max-width:550px){
+
+    .row{
+        flex-direction:column;
+        gap:0;
+    }
+
+    .left h1{
+        font-size:30px;
+    }
+
+    .right h2{
+        font-size:25px;
+    }
+
+    .progress label{
+        display:none;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="main">
+
+    <!-- LEFT SIDE -->
+
+    <div class="left">
+
+        <div class="logo">
+            <span>CS</span>
+        </div>
+
+        <div class="brand">
+            CampusShare
+        </div>
+
+        <div class="left-content">
+
+            <h1>
+                Let's build your
+                <span>Campus Profile.</span>
+            </h1>
+
+            <p>
+                Tell us a little about yourself.
+                Your profile helps CampusShare connect
+                you with students and useful items around
+                your campus.
+            </p>
+
+            <div class="illustration">
+
+                <div class="card one">
+
+                    <div class="item-icon">📚</div>
+
+                    <strong>
+                        Share Knowledge
+                    </strong>
+
+                    <small>
+                        Books • Notes
+                    </small>
+
+                </div>
+
+
+                <div class="card two">
+
+                    <div class="item-icon">🔌</div>
+
+                    <strong>
+                        Share Essentials
+                    </strong>
+
+                    <small>
+                        Chargers • Gadgets
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="right">
+
+        <div class="top">
+
+            <b>CampusShare</b>
+
+            <span class="step-text">
+                Step 1 of 3
+            </span>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress">
+
+            <div class="circle active">
+                1
+            </div>
+
+            <label>
+                Profile
+            </label>
+
+
+            <div class="line"></div>
+
+
+            <div class="circle">
+                2
+            </div>
+
+            <label>
+                Preferences
+            </label>
+
+
+            <div class="line"></div>
+
+
+            <div class="circle">
+                3
+            </div>
+
+            <label>
+                Start Sharing
+            </label>
+
+        </div>
+
+
+        <h2>
+            Personal Information
+        </h2>
+
+        <p class="subtitle">
+            Create your profile to get started with CampusShare.
+        </p>
+
+
+        <!-- PERSONAL INFORMATION FORM -->
+
+        <form method="POST" action="/personal-info">
+
+
+            <!-- FULL NAME + USERNAME -->
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label class="form-label">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="full_name"
+                        placeholder="Enter your full name"
+                        required>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label class="form-label">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        value="{{ username }}"
+                        readonly>
+
+                </div>
+
+            </div>
+
+
+            <!-- CITY + COURSE -->
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label class="form-label">
+                        City
+                    </label>
+
+                    <input
+                        type="text"
+                        name="city"
+                        placeholder="Enter your city"
+                        required>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label class="form-label">
+                        Course
+                    </label>
+
+                    <input
+                        type="text"
+                        name="course"
+                        placeholder="e.g. BCS"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- YEAR + CONTACT -->
+
+            <div class="row">
+
+                <div class="field">
+
+                    <label class="form-label">
+                        Year
+                    </label>
+
+                    <select name="year" required>
+
+                        <option value="">
+                            Select year
+                        </option>
+
+                        <option>
+                            1st Year
+                        </option>
+
+                        <option>
+                            2nd Year
+                        </option>
+
+                        <option>
+                            3rd Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label class="form-label">
+                        Contact Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="contact"
+                        placeholder="10-digit number"
+                        pattern="[0-9]{10}"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button type="submit">
+                Continue to Preferences →
+            </button>
+
+
+            <div class="privacy">
+                🔒 Your personal information is protected by CampusShare.
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
