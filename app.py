@@ -11,12 +11,7 @@ app.secret_key="campusshare_secret_key"
 # =========================
 
 def get_db_connection():
-    return psycopg2.connect(
-        host="localhost",
-        database="postgres",
-        user="postgres",
-        password=""os.getenv("DB_PASSWORD"),
-    )
+    return psycopg2.connect(os.getenv("DATABASE_URL"))
 
 
 # =========================
