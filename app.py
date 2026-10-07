@@ -11,8 +11,12 @@ app.secret_key="campusshare_secret_key"
 # =========================
 
 def get_db_connection():
-    return psycopg2.connect(os.getenv("DATABASE_URL"))
+    url = os.getenv("DATABASE_URL")
 
+    print("DATABASE_URL EXISTS:", bool(url))
+    print("DATABASE_URL START:", url[:20] if url else "NONE")
+
+    return psycopg2.connect(url)
 
 # =========================
 # WELCOME PAGE
