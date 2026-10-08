@@ -11,12 +11,14 @@ app.secret_key="campusshare_secret_key"
 # =========================
 
 def get_db_connection():
-    url = os.getenv("DATABASE_URL")
-
-    print("DATABASE_URL EXISTS:", bool(url))
-    print("DATABASE_URL START:", url[:20] if url else "NONE")
-
-    return psycopg2.connect(url)
+    return psycopg2.connect(
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT", "5432"),
+        database=os.getenv("DB_NAME", "postgres"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        sslmode="require"
+    )
 
 # =========================
 # WELCOME PAGE
