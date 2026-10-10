@@ -316,7 +316,36 @@ def help_responses():
         "help_responses.html",
         responses=responses
     )
+@app.route("/admin")
+def admin_panel():
+    if "user_id" not in session:
+        return redirect("/login")
 
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT role FROM users WHERE id = %s",
+        (session["user_id"],)
+    )
+    result = cur.fetchone()
+
+    if not result or result[0] != "admin":
+        cur.close()
+        conn.close()
+        return "Access denied: Admin only", 403
+
+    cur.execute("""
+        SELECT id, username, email, role
+        FROM users
+        ORDER BY id DESC
+    """)
+    users = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template("admin.html", users=users)
 
 # =========================
 # ADD ITEM
