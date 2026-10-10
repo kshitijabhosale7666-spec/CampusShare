@@ -168,7 +168,7 @@ def preferences():
 # DASHBOARD
 # =========================
 
-@app.route("/dashboard")5t
+@app.route("/dashboard")
 def dashboard():
 
     if "user_id" not in session:
