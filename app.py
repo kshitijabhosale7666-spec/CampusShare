@@ -792,7 +792,7 @@ def my_items():
     conn.close()
 
     return render_template("my_items.html", items=items)
-    @app.route("/admin/toggle-block/<int:user_id>", methods=["POST"])
+@app.route("/admin/toggle-block/<int:user_id>", methods=["POST"])
 def toggle_block(user_id):
     if "user_id" not in session:
         return redirect("/login")
