@@ -68,7 +68,6 @@ def register():
 def login():
 
     if request.method == "POST":
-
         username = request.form["username"]
         password = request.form["password"]
 
@@ -76,7 +75,7 @@ def login():
         cur = conn.cursor()
 
         cur.execute("""
-            SELECT id, username, password
+            SELECT id, username, password, is_blocked
             FROM users
             WHERE username = %s OR email = %s
         """, (username, username))
@@ -89,14 +88,18 @@ def login():
         if user is None:
             return "<script>alert('Username or Email not found'); window.location.href='/login';</script>"
 
+        if user[3]:
+            return "<script>alert('Your account is blocked. Contact the administrator.'); window.location.href='/login';</script>"
+
         if user[2] != password:
             return "<script>alert('Incorrect password'); window.location.href='/login';</script>"
+
         session["user_id"] = user[0]
         session["username"] = user[1]
+
         return redirect("/personal-info")
 
     return render_template("login.html")
-
 # =========================
 # PERSONAL INFORMATION
 # =========================
@@ -328,15 +331,15 @@ def admin_panel():
         "SELECT role FROM users WHERE id = %s",
         (session["user_id"],)
     )
-    result = cur.fetchone()
+    admin = cur.fetchone()
 
-    if not result or result[0] != "admin":
+    if not admin or admin[0] != "admin":
         cur.close()
         conn.close()
         return "Access denied: Admin only", 403
 
     cur.execute("""
-        SELECT id, username, email, role
+        SELECT id, username, email, role, is_blocked
         FROM users
         ORDER BY id DESC
     """)
@@ -346,7 +349,6 @@ def admin_panel():
     conn.close()
 
     return render_template("admin.html", users=users)
-
 # =========================
 # ADD ITEM
 # =========================
@@ -768,5 +770,43 @@ def submit_rating(request_id):
 def logout():
     session.clear()
     return redirect("/login")
+
+@app.route("/admin/toggle-block/<int:user_id>", methods=["POST"])
+def toggle_block(user_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT role FROM users WHERE id = %s",
+        (session["user_id"],)
+    )
+    admin = cur.fetchone()
+
+    if not admin or admin[0] != "admin":
+        cur.close()
+        conn.close()
+        return "Access denied", 403
+
+    # Admin ko khud ko block karne se roko
+    if user_id == session["user_id"]:
+        cur.close()
+        conn.close()
+        return "You cannot block your own account", 400
+
+    cur.execute("""
+        UPDATE users
+        SET is_blocked = NOT is_blocked
+        WHERE id = %s
+    """, (user_id,))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect("/admin")
 if __name__ == "__main__":
     app.run(debug=True)

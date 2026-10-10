@@ -3,35 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>CampusShare Admin Panel</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f4f0ff;
             margin: 0;
             padding: 25px;
+            color: #333;
         }
 
         h1 {
             color: #6d28d9;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
         }
 
         .panel {
             background: white;
             padding: 20px;
             border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
             overflow-x: auto;
         }
 
         table {
             width: 100%;
+            min-width: 650px;
             border-collapse: collapse;
         }
 
         th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
+            padding: 14px 12px;
+            border-bottom: 1px solid #e5e7eb;
             text-align: left;
         }
 
@@ -40,37 +54,150 @@
             color: white;
         }
 
+        tr:hover {
+            background: #faf8ff;
+        }
+
         .admin {
-            color: green;
+            color: #15803d;
             font-weight: bold;
+        }
+
+        .student {
+            color: #555;
+        }
+
+        .blocked {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .active {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        button {
+            border: none;
+            border-radius: 6px;
+            padding: 9px 14px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .block-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .unblock-btn {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .note {
+            color: #666;
+            font-size: 13px;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .panel {
+                padding: 12px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
+
     <h1>CampusShare Admin Panel</h1>
-    <p>Manage registered users.</p>
+    <p class="subtitle">Manage registered users and account access.</p>
 
     <div class="panel">
         <h2>Registered Users</h2>
 
         <table>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
-            {% for user in users %}
-            <tr>
-                <td>{{ user[0] }}</td>
-                <td>{{ user[1] }}</td>
-                <td>{{ user[2] }}</td>
-                <td>{{ user[3] }}</td>
-            </tr>
-            {% endfor %}
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}</td>
+                    <td>{{ user[2] }}</td>
+
+                    <td>
+                        {% if user[3] == 'admin' %}
+                            <span class="admin">Admin</span>
+                        {% else %}
+                            <span class="student">{{ user[3] }}</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if user[4] %}
+                            <span class="blocked">Blocked</span>
+                        {% else %}
+                            <span class="active">Active</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if user[0] != session.get('user_id') %}
+                        <form
+                            action="{{ url_for('toggle_block', user_id=user[0]) }}"
+                            method="POST"
+                            onsubmit="return confirm('Are you sure you want to change this account status?');"
+                        >
+                            {% if user[4] %}
+                            <button type="submit" class="unblock-btn">
+                                Unblock
+                            </button>
+                            {% else %}
+                            <button type="submit" class="block-btn">
+                                Block
+                            </button>
+                            {% endif %}
+                        </form>
+                        {% else %}
+                            Your account
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">No users found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
+
+        <p class="note">
+            Only administrators should manage user accounts.
+        </p>
     </div>
+
 </body>
 </html>
