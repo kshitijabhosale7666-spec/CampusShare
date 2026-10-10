@@ -792,5 +792,56 @@ def my_items():
     conn.close()
 
     return render_template("my_items.html", items=items)
+    @app.route("/admin/toggle-block/<int:user_id>", methods=["POST"])
+def toggle_block(user_id):
+    if "user_id" not in session:
+        return redirect("/login")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    try:
+        cur.execute(
+            "SELECT role FROM users WHERE id = %s",
+            (session["user_id"],)
+        )
+        admin = cur.fetchone()
+
+        if not admin or admin[0] != "admin":
+            return "Access denied", 403
+
+        if user_id == session["user_id"]:
+            return "You cannot block your own account", 400
+
+        cur.execute(
+            "SELECT role, is_blocked FROM users WHERE id = %s",
+            (user_id,)
+        )
+        target = cur.fetchone()
+
+        if not target:
+            return "User not found", 404
+
+        if target[0] == "admin":
+            return "Admin accounts cannot be blocked here", 400
+
+        new_status = not target[1]
+
+        cur.execute(
+            "UPDATE users SET is_blocked = %s WHERE id = %s",
+            (new_status, user_id)
+        )
+
+        conn.commit()
+        return redirect("/admin")
+
+    except Exception:
+        conn.rollback()
+        app.logger.exception("Failed to change user block status")
+        return "Could not update account. Check application logs.", 500
+
+    finally:
+        cur.close()
+        conn.close()
 if __name__ == "__main__":
     app.run(debug=True)
