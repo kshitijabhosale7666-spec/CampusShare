@@ -177,9 +177,17 @@ def dashboard():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    cur.execute("SELECT * FROM items ORDER BY id DESC")
+    # Show only items belonging to active users
+    cur.execute("""
+        SELECT items.*
+        FROM items
+        JOIN users ON items.owner_id = users.id
+        WHERE users.is_blocked = FALSE
+        ORDER BY items.id DESC
+    """)
     items = cur.fetchall()
 
+    # Get current user's trust score
     cur.execute("""
         SELECT score
         FROM trust_scores
@@ -771,75 +779,18 @@ def logout():
     session.clear()
     return redirect("/login")
 
-@app.route("/admin/toggle-block/<int:user_id>", methods=["POST"])
-def toggle_block(user_id):
-
-    if "user_id" not in session:
-        return redirect("/login")
+@app.route("/my-items")
+def my_items():
 
     conn = get_db_connection()
     cur = conn.cursor()
 
-    try:
-        # Check current user's admin role
-        cur.execute(
-            "SELECT role FROM users WHERE id = %s",
-            (session["user_id"],)
-        )
-        admin = cur.fetchone()
+    cur.execute("SELECT * FROM items WHERE owner_id = %s ORDER BY id DESC""",(session["user_id"],))
+    items = cur.fetchall()
 
-        if not admin or admin[0] != "admin":
-            conn.rollback()
-            return "Access denied", 403
+    cur.close()
+    conn.close()
 
-        # Prevent changing own account
-        if user_id == session["user_id"]:
-            conn.rollback()
-            return "You cannot block your own account", 400
-
-        # Get target user's current status
-        cur.execute(
-            "SELECT role, is_blocked FROM users WHERE id = %s",
-            (user_id,)
-        )
-        target = cur.fetchone()
-
-        if not target:
-            conn.rollback()
-            return "User not found", 404
-
-        # Never block or unblock another admin here
-        if target[0] == "admin":
-            conn.rollback()
-            return "Admin accounts cannot be blocked here", 400
-
-        # If currently active, block and delete only their items
-        if not target[1]:
-            cur.execute(
-                "DELETE FROM items WHERE owner_id = %s",
-                (user_id,)
-            )
-            cur.execute(
-                "UPDATE users SET is_blocked = TRUE WHERE id = %s",
-                (user_id,)
-            )
-        else:
-            # Unblock only; do not delete anything
-            cur.execute(
-                "UPDATE users SET is_blocked = FALSE WHERE id = %s",
-                (user_id,)
-            )
-
-        conn.commit()
-        return redirect("/admin")
-
-    except Exception:
-        conn.rollback()
-        app.logger.exception("Failed to change user block status")
-        return "Could not update account. Please check application logs.", 500
-
-    finally:
-        cur.close()
-        conn.close()
+    return render_template("my_items.html", items=items)
 if __name__ == "__main__":
     app.run(debug=True)
