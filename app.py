@@ -168,7 +168,7 @@ def preferences():
 # DASHBOARD
 # =========================
 
-@app.route("/dashboard")
+@app.route("/dashboard")5t
 def dashboard():
 
     if "user_id" not in session:
@@ -778,20 +778,6 @@ def submit_rating(request_id):
 def logout():
     session.clear()
     return redirect("/login")
-
-@app.route("/my-items")
-def my_items():
-
-    conn = get_db_connection()
-    cur = conn.cursor()
-
-    cur.execute("SELECT * FROM items WHERE owner_id = %s ORDER BY id DESC""",(session["user_id"],))
-    items = cur.fetchall()
-
-    cur.close()
-    conn.close()
-
-    return render_template("my_items.html", items=items)
     
 @app.route("/admin/toggle-block/<int:user_id>", methods=["POST"])
 def toggle_block(user_id):
